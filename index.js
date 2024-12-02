@@ -89,7 +89,30 @@ app.post('/login', (req, res) => {
     }
     res.redirect("/adminLand")
 });
-
+// this is the post to insert the volunteer information from the form into the database
+app.post('/volunteerSignup', (req, res) => {
+    const fullname = req.body.name;
+    const email = req.body.email;
+    const zipcode = req.body.zipcode;
+    const how_found = req.body.how_found;
+    const sewing_level = req.body.sewing_level;
+    // we still need to figure out how to put the input stuff in
+    knex('volunteer')
+      .insert({
+        first_name: first_name.toUpperCase(), // Ensure description is uppercase
+        last_name: last_name.toUpperCase(),
+        jedi: jedi,
+        planet_name: planet_name,
+        weapon: weapon
+      })
+      .then(() => {
+        res.redirect('/'); // Redirect to the root
+      })
+      .catch(error => {
+        console.error('Error adding character:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
 
 // Start the server
 app.listen(port, () => console.log("Turtle Shelter Express App has started and server is listening on port 3110!"));
