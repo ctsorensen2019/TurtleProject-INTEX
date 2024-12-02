@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
   });
 
 app.get('/login', (req, res) => {
-    res.render('login'); // Render the login.ejs file
+    res.render('login', {security}); // Render the login.ejs file and pass in security
 });
 
 
@@ -85,7 +85,7 @@ app.post('/login', (req, res) => {
     } catch (error) {
         res.status(500).send('Database query failed: ' + error.message);
     }
-    res.redirect("/")
+    res.redirect("/adminLand")
 });
 
 
