@@ -61,6 +61,11 @@ app.get('/', (req, res) => {
  //     });
   });
 
+app.get('/login', (req, res) => {
+    res.render('login'); // Render the login.ejs file
+});
+
+
 //login for security purposes
 app.post('/login', (req, res) => {
     const username = req.body.username;
