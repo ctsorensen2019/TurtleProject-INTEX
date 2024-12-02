@@ -6,6 +6,30 @@ body {
   font-weight: 300;
   color: #555555; }
 
+  .navbar-nav {
+    align-items: center; /* Align items vertically */
+}
+
+.nav-link {
+    font-size: 18px; /* Adjust font size for better readability */
+    color: #007bff; /* Link color */
+    text-decoration: none;
+}
+
+.nav-button {
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #0056b3; /* Hover color */
+}
+
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
