@@ -7,7 +7,7 @@ let path = require('path');
 let security = false;
 
 //
-const port = process.env.PORT || 4400;
+const port = process.env.PORT || 3110;
 
 // Configure knex to connect to the assignment3 database
 const knex = require("knex")({
@@ -16,9 +16,10 @@ const knex = require("knex")({
         host: process.env.RDS_HOSTNAME || "localhost",
         user: process.env.RDS_USERNAME || "postgres",
         password: process.env.RDS_PASSWORD || "Christian0427",
-        database: process.env.RDS_DB_NAME || "assignment 4",
+        database: process.env.RDS_DB_NAME || "turtle shelter",
         port: process.env.RDS_PORT || 5432,
-        ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
+        //Uncomment the below code when we connect to RDS
+        //ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
 });
 
@@ -28,6 +29,31 @@ app.set("views", path.join(__dirname, "views"));
 
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+
+// Route to display records
+app.get('/', (req, res) => {
+    res.render('index');//Delete when we have database working
+//    knex('pokemon')
+//      .join('poke_type', 'pokemon.poke_type_id', '=', 'poke_type.id')
+//      .select(
+//        'pokemon.id',
+//        'pokemon.description',
+//        'pokemon.base_total',
+//        'pokemon.date_created',
+//        'pokemon.active_poke',
+//        'pokemon.gender',
+//        'pokemon.poke_type_id',
+//        'poke_type.description as poke_type_description'
+  //    )
+//      .then(pokemon => {
+//        // Render the index.ejs template and pass the data
+//        res.render('index', { pokemon });
+//      })
+ //     .catch(error => {
+ //       console.error('Error querying database:', error);
+ //       res.status(500).send('Internal Server Error');
+ //     });
+  });
 
 //login for security purposes
 app.post('/login', (req, res) => {
@@ -50,3 +76,7 @@ app.post('/login', (req, res) => {
     }
     res.redirect("/")
 });
+
+
+// Start the server
+app.listen(port, () => console.log("Pokemon Express App has started and server is listening on port 4400!"));
