@@ -30,6 +30,12 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware to allow for css, javascript, images, and fonts
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
+
 // Route to display records
 app.get('/', (req, res) => {
     res.render('index');//Delete when we have database working
@@ -79,4 +85,4 @@ app.post('/login', (req, res) => {
 
 
 // Start the server
-app.listen(port, () => console.log("Pokemon Express App has started and server is listening on port 4400!"));
+app.listen(port, () => console.log("Turtle Shelter Express App has started and server is listening on port 3110!"));
