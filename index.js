@@ -91,19 +91,21 @@ app.post('/login', (req, res) => {
 });
 // this is the post to insert the volunteer information from the form into the database
 app.post('/volunteerSignup', (req, res) => {
-    const fullname = req.body.name;
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
     const email = req.body.email;
-    const zipcode = req.body.zipcode;
+    const zipcode = parseInt(req.body.zipcode);
     const how_found = req.body.how_found;
     const sewing_level = req.body.sewing_level;
-    // we still need to figure out how to put the input stuff in
     knex('volunteer')
       .insert({
-        first_name: first_name.toUpperCase(), // Ensure description is uppercase
-        last_name: last_name.toUpperCase(),
-        jedi: jedi,
-        planet_name: planet_name,
-        weapon: weapon
+        VolFirstName: first_name.toUpperCase(), // Ensure description is uppercase
+        VolLastName: last_name.toUpperCase(),
+        VolEmail : email.toUpperCase(),
+        ZIP : zipcode,
+        VolSewingLevel: sewing_level.toUpperCase(),
+        HowDiscovered: how_found.toUpperCase()
+
       })
       .then(() => {
         res.redirect('/'); // Redirect to the root
