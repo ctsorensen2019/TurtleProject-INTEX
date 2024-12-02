@@ -116,5 +116,9 @@ app.post('/volunteerSignup', (req, res) => {
       });
   });
 
+  app.get('/eventReq', (req, res) => {
+    res.render('eventReq'); // Render the login.ejs file and pass in security
+  });
+
 // Start the server
 app.listen(port, () => console.log("Turtle Shelter Express App has started and server is listening on port 3110!"));
