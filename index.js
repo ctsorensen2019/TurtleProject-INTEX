@@ -16,7 +16,7 @@ const knex = require("knex")({
         host: process.env.RDS_HOSTNAME || "localhost",
         user: process.env.RDS_USERNAME || "postgres",
         password: process.env.RDS_PASSWORD || "Christian0427",
-        database: process.env.RDS_DB_NAME || "turtle shelter",
+        database: process.env.RDS_DB_NAME || "turtleshelter",
         port: process.env.RDS_PORT || 5432,
         //Uncomment the below code when we connect to RDS
         //ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -161,10 +161,10 @@ app.post('/volunteerSignup', (req, res) => {
 
 
 //Gets the required info to be able to add Characters
-app.get('/addStar', (req, res) => {
+app.get('/addUser', (req, res) => {
     // Fetch Character types to populate the dropdown
     knex('planets')
-      .select('id', 'planet_name')
+      .select('UserID', 'planet_name')
       .then(planets => {
         // Render the add form with the Character types data
         res.render('addStar', { planets });
