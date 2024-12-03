@@ -62,12 +62,15 @@ app.get('/', (req, res) => {
   });
 
 
-//
-//
+
+////////
+////////
 //CLIENT
 //SIDE
-//
-//
+////////
+////////
+
+
 
 app.get('/login', (req, res) => {
     res.render('login', {security}); // Render the login.ejs file and pass in security
@@ -97,9 +100,9 @@ app.post('/login', (req, res) => {
 });
 
 
-//
+/////
 //Volunteer Signup
-//
+/////
 
 // this is the post to insert the volunteer information from the form into the database
 app.post('/volunteerSignup', (req, res) => {
@@ -129,32 +132,68 @@ app.post('/volunteerSignup', (req, res) => {
   });
 
 
-  //
-  //Event Request
-  //
+/////
+//Event Request
+/////
 
   app.get('/eventReq', (req, res) => {
     res.render('eventReq'); // Render the login.ejs file and pass in security
   });
 
-//
-//
+
+
+////////
+////////
 //SERVER
 //SIDE
-//
-//
+////////
+////////
 
-//
+
+
+/////
 //Users
-//
+/////
 
-//
+
+//Add
+//User
+
+//Edit
+//User
+
+//Remove
+//User
+
+
+/////
 //Events
-//
+/////
 
-//
+
+//Add
+//Event
+
+//Edit
+//Event
+
+//Remove
+//Event
+
+
+/////
 //Volunteers
-//
+/////
+
+
+//Add
+//Volunteer
+
+//Edit
+//Volunteer
+
+//Remove
+//Volunteer
 
 
 // Start the server
