@@ -4,6 +4,17 @@
     <title>Add User</title>
     <!--Styling of the form and buttons-->
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
         form {
             width: 50%;
             margin: 20px auto;
@@ -11,29 +22,28 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             background-color: #F9F9F9;
-            font-size: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
+            color: #555;
         }
-        input, select, button {
+        input, button {
             width: 100%;
             padding: 8px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        input[type="checkbox"], input[type="radio"] {
-            width: auto;
-            margin-right: 5px;
-        }
         button {
             background-color: #4CAF50;
             color: white;
-            font-size: 12px;
+            font-size: 16px;
             cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #45A049;
@@ -41,31 +51,33 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Add User</h1>
-    <!--Calls some of the code from the index.js file-->
+    <h1>Add User</h1>
+    <!-- Form for adding a user -->
     <form action="/addUser" method="POST">
-        <!-- User Name -->
-        <label for="username">Username</label>
+        <!-- Username (Primary Key) -->
+        <label for="username">Username (must be unique)</label>
         <input
             type="text"
             id="username"
             name="username"
             required
-            style="text;"
-            oninput="this.value"
+            placeholder="Enter a unique username"
+            pattern="^[a-zA-Z0-9_]+$" <!-- Allow only alphanumeric characters and underscores -->
+            title="Username must contain only letters, numbers, and underscores."
         >
-        <label for="password">Username</label>
+
+        <!-- Password -->
+        <label for="password">Password</label>
         <input
-            type="text"
+            type="password"
             id="password"
             name="password"
             required
-            style="text-transform: uppercase;"
-            oninput="this.value = this.value.toUpperCase()"
+            placeholder="Enter password"
         >
-        
+
         <!-- Submit Button -->
-        <button type="submit">Add Planet</button>
+        <button type="submit">Add User</button>
     </form>
 </body>
 </html>
