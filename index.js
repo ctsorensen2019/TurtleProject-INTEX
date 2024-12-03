@@ -17,7 +17,7 @@ const knex = require("knex")({
         user: process.env.RDS_USERNAME || "postgres",
         password: process.env.RDS_PASSWORD || "Christian0427" || "6291509",
         database: process.env.RDS_DB_NAME || "turtle shelter" || "turtleshelter",
-        port: process.env.RDS_PORT || 5432,
+        port: process.env.RDS_PORT || 5432 || 5433
         //Uncomment the below code when we connect to RDS
         //ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
     }
@@ -78,26 +78,31 @@ app.get('/login', (req, res) => {
 
 
 //login for security purposes
-app.post('/login', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    try {
-        // Query the user table to find the record
-        const user = knex('user')
-            .select('*')
-            .where({ username, password }) // Replace with hashed password comparison in production
-            .first(); // Returns the first matching record
-        if (user) {
-            security = true;
-        } else {
-            security = false;
-        }
-        //required every time knex is used
-    } catch (error) {
-        res.status(500).send('Database query failed: ' + error.message);
-    }
-    res.redirect("/adminLand")
+app.post('/login', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  try {
+      // Query the user table to find the record
+      const user = await knex('user')
+          .select('*')
+          .where({ username, password }) // Replace with hashed password comparison in production
+          .first(); // Returns the first matching record
+
+      if (user) {
+          // Successful login
+          return res.redirect('/adminLand');
+      } else {
+          // Failed login
+          return res.redirect('/');
+      }
+  } catch (error) {
+      console.error('Database query failed:', error.message);
+      // Handle database errors
+      return res.redirect('/');
+  }
 });
+
 
 
 /////
@@ -210,7 +215,6 @@ app.get('/addUser', (req, res) => {
 
   //further configures the edit star, and allows for edits
   app.post('/editUser/:username', (req, res) => {
-    const username = req.params.username;
     // Access each value directly from req.body
     const username = req.body.username; //Pass the input to the request body and gives it a name
     const password = req.body.password; //Pass the input to the request body and gives it a name
