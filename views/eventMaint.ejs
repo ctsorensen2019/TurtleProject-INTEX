@@ -108,41 +108,47 @@
             <div class="table-placeholder">No events needing updates.</div>
         <% } %>
     </div>
-
     <div class="event-section">
         <h2>Waiting Approval</h2>
         <% if (waitingApproval.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Event ID</th>
-                        <th>Event Date</th>
-                        <th>Time</th>
-                        <th>Location</th>
-                        <th>Estimated Start Time</th>
-                        <th>Contact Info</th>
-                        <th>Approval Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% waitingApproval.forEach(event => { %>
+            <form action="/updateApproval" method="POST">
+                <table>
+                    <thead>
                         <tr>
-                            <td><%= event.eventid %></td>
-                            <td><%= event.date %></td>
-                            <td><%= event.starttime %> - <%= event.endtime %></td>
-                            <td><%= event.streetaddress %>, <%= event.city %>, <%= event.state %> <%= event.zip %></td>
-                            <td><%= event.eststarttime %> - <%= event.estendtime %></td>
-                            <td><%= event.contactfirstname %> <%= event.contactlastname %>, <%= event.contactphonenumber %></td>
-                            <td><%= event.approval ? 'Approved' : 'Pending' %></td>
+                            <th>Event ID</th>
+                            <th>Event Date</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Estimated Start Time</th>
+                            <th>Contact Info</th>
+                            <th>Approval Status</th>
+                            <th>Actions</th>
                         </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% waitingApproval.forEach(event => { %>
+                            <tr>
+                                <td><%= event.eventid %></td>
+                                <td><%= event.date %></td>
+                                <td><%= event.starttime %> - <%= event.endtime %></td>
+                                <td><%= event.streetaddress %>, <%= event.city %>, <%= event.state %> <%= event.zip %></td>
+                                <td><%= event.eststarttime %> - <%= event.estendtime %></td>
+                                <td><%= event.contactfirstname %> <%= event.contactlastname %>, <%= event.contactphonenumber %></td>
+                                <td><%= event.approval ? 'Approved' : 'Pending' %></td>
+                                <td>
+                                    <button type="submit" name="approve" value="<%= event.eventid %>">✔️</button>
+                                    <button type="submit" name="deny" value="<%= event.eventid %>">❌</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </form>
         <% } else { %>
             <div class="table-placeholder">No events waiting for approval.</div>
         <% } %>
     </div>
-
+    
     <div class="event-section">
         <h2>Upcoming</h2>
         <% if (upcomingEvents.length > 0) { %>

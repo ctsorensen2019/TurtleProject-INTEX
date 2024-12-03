@@ -370,6 +370,24 @@ app.get('/eventMaint', async (req, res) => {
 
 //Edit//
 //Event//
+// this is to update approval
+app.post('/updateApproval', async (req, res) => {
+  try {
+      const eventId = req.body.approve || req.body.deny; // Get event ID from the button clicked
+      const approvalStatus = req.body.approve ? true : false; // Set approval status based on which button was clicked
+
+      // Update the event approval status in the database
+      await knex('events')
+          .where({ eventid: eventId })
+          .update({ approval: approvalStatus });
+
+      // Redirect back to the eventMaint page after updating
+      res.redirect('/eventMaint');
+  } catch (error) {
+      console.error('Error updating approval:', error.message);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 
 
