@@ -45,7 +45,6 @@
         <% administration.forEach(row => { %>
           <tr>
             <input type="hidden" value="row.id">
-            <td><%= row.id %></td>
             <td><%= row.username %></td>
             <td>
               <form action="/editUser/<%= row.id %>" method="GET" style="display:inline;">
