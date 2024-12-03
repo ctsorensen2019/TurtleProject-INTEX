@@ -389,6 +389,46 @@ app.post('/updateApproval', async (req, res) => {
   }
 });
 
+// this is to add the information for completetion
+app.post('/submitEvent', async (req, res) => {
+  try {
+      const { eventID, startTime, endTime, numParticipants } = req.body;
+
+      // Update the event with the new start time, end time, and number of participants
+      await knex('events')
+          .where({ eventid: eventID })
+          .update({
+              starttime: startTime,
+              endtime: endTime,
+              numparticipants: numParticipants
+          });
+
+      // Redirect to the event maintenance page (or wherever appropriate)
+      res.redirect('/eventMaint');
+  } catch (error) {
+      console.error('Error updating event data:', error.message);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
+// get to edit the post to add the additional information
+app.get('/editEvent/:eventID', async (req, res) => {
+  try {
+      // Retrieve event data based on eventID
+      const event = await knex('events').where({ eventid: req.params.eventID }).first();
+
+      if (!event) {
+          return res.status(404).send('Event not found');
+      }
+
+      // Render the form with event data
+      res.render('editEvent', { event });
+  } catch (error) {
+      console.error('Error retrieving event data:', error.message);
+      res.status(500).send('Internal Server Error');
+  }
+});
 
 
 
