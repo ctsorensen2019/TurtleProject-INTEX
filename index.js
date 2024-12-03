@@ -201,11 +201,11 @@ app.get('/addUser', (req, res) => {
 
 
   //configures the edit star functionality
-  app.get('/editUser/:id', (req, res) => {
+  app.get('/editUser/:username', (req, res) => {
     let id = req.params.id;
     // Query the Characters by ID first
     knex('administration')
-      .where('id', username)
+      .where('username', username)
       .first()
       .then(administration => {
         if (!administration) {
@@ -219,21 +219,21 @@ app.get('/addUser', (req, res) => {
   });
 
   //further configures the edit star, and allows for edits
-  app.post('/editUser/:id', (req, res) => {
-    const id = req.params.id;
+  app.post('/editUser/:username', (req, res) => {
+    const username = req.params.username;
     // Access each value directly from req.body
     const username = req.body.username; //Pass the input to the request body and gives it a name
-    const password = req.body.password; //Pass the input to the request body and gives it a name
+   
 
 //Remove//
 //User//
 
 
   //Allows for deletion
-  app.post('/deleteUser/:id', (req, res) => {
+  app.post('/deleteUser/:username', (req, res) => {
     const username = req.params.username;
     knex('administration')
-      .where('id', username)
+      .where('username', username)
       .del() // Deletes the record with the specified username
       .then(() => {
         res.redirect('/'); // Redirect to the user list after deletion
