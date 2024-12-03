@@ -268,23 +268,21 @@ app.get('/addUser', (req, res) => {
 
   //configures the edit user functionality
   app.get('/editUser/:username', (req, res) => {
-    const username = req.params.username;
-
+    let username = req.params.username;
+    // Query the User by ID first
     knex('administration')
-        .where('username', username)
-        .first()
-        .then(user => {
-            if (!user) {
-                return res.status(404).send('User not found');
-            }
-            // Render the editUser page and pass the user data
-            res.render('editUser', { administration: user });
-        })
-        .catch(error => {
-            console.error('Error fetching user for editing:', error);
-            res.status(500).send('Internal Server Error');
-        });
-});
+      .where('username', username)
+      .first()
+      .then(administration => {
+        if (!administration) {
+          return res.status(404).send('User not found');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching Users for editing:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
 
   //further configures the edit user, and allows for edits
   app.post('/editUser/:username', (req, res) => {
@@ -316,7 +314,7 @@ app.get('/addUser', (req, res) => {
       .where('username', username)
       .del() // Deletes the record with the specified username
       .then(() => {
-        res.redirect('/userMaint'); // Redirect to the user list after deletion
+        res.redirect('/'); // Redirect to the user list after deletion
       })
       .catch(error => {
         console.error('Error deleting User:', error);
@@ -435,7 +433,7 @@ app.get('/editEvent/:eventID', async (req, res) => {
   }
 });
 
-
+// this is to view and then edit the other 
 
 //Remove//
 //Event//
