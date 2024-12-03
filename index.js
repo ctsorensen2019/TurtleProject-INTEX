@@ -223,6 +223,7 @@ app.get('/addUser', (req, res) => {
     const username = req.params.username;
     // Access each value directly from req.body
     const username = req.body.username; //Pass the input to the request body and gives it a name
+  }
    
 
 //Remove//
