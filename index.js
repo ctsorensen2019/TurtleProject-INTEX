@@ -190,10 +190,10 @@ app.get('/addUser', (req, res) => {
 //User//
 
 
-  //configures the edit star functionality
+  //configures the edit user functionality
   app.get('/editUser/:username', (req, res) => {
-    let id = req.params.id;
-    // Query the Characters by ID first
+    let username = req.params.username;
+    // Query the User by ID first
     knex('administration')
       .where('username', username)
       .first()
@@ -208,7 +208,7 @@ app.get('/addUser', (req, res) => {
       });
   });
 
-  //further configures the edit star, and allows for edits
+  //further configures the edit user, and allows for edits
   app.post('/editUser/:username', (req, res) => {
     const username = req.params.username;
     // Access each value directly from req.body
