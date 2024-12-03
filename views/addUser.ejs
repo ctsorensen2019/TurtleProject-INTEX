@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add User</title>
+    <!--Styling of the form and buttons-->
+    <style>
+        form {
+            width: 50%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #F9F9F9;
+            font-size: 12px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45A049;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Add User</h1>
+    <!--Calls some of the code from the index.js file-->
+    <form action="/addUser" method="POST">
+        <!-- User Name -->
+        <label for="username">Username</label>
+        <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            style="text;"
+            oninput="this.value"
+        >
+        <label for="password">Username</label>
+        <input
+            type="text"
+            id="password"
+            name="password"
+            required
+            style="text-transform: uppercase;"
+            oninput="this.value = this.value.toUpperCase()"
+        >
+        
+        <!-- Submit Button -->
+        <button type="submit">Add Planet</button>
+    </form>
+</body>
+</html>
