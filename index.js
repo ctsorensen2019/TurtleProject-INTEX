@@ -150,7 +150,7 @@ app.post('/volunteerSignup', (req, res) => {
 /////
 
   app.get('/eventReq', (req, res) => {
-    res.render('eventReq'); // Render the login.ejs file and pass in security
+    res.render('eventReq'); // Render the eventReq file 
   });
 
   app.post('/submitEvent', async (req, res) => {
@@ -214,6 +214,22 @@ app.post('/volunteerSignup', (req, res) => {
 /////
 //Users
 /////
+
+app.get('/userMaint', (req, res) => {
+    knex('administration')
+      .select(
+        'administration.username',
+        'administration.password'
+      )
+      .then(administration => {
+        // Render the index.ejs template and pass the data
+        res.render('userMaint', { administration });
+      })
+      .catch(error => {
+        console.error('Error querying Users database:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
 
 
 //Add//
@@ -286,6 +302,7 @@ app.get('/addUser', (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
+
 //Remove//
 //User//
 
@@ -379,6 +396,25 @@ app.get('/eventMaint', async (req, res) => {
 
 //Remove//
 //Volunteer//
+
+
+/////
+//Team Members
+/////
+
+//Add//
+//Team Members//
+
+
+
+
+//Edit//
+//Team Members//
+
+
+
+//Remove//
+//Team Members//
 
 
 // Start the server
