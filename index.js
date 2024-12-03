@@ -329,6 +329,40 @@ app.get('/addUser', (req, res) => {
 /////
 
 
+app.get('/eventMaint', async (req, res) => {
+    try {
+        // Query 1: Get events needing updates
+        const needingUpdate = await knex('events').where('event_date', '<', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*');
+
+        // Query 2: Get events waiting for approval
+        const waitingApproval = await knex('events').where('event_date', '>', knex.raw('CURRENT_DATE')).whereNull('approval').select('*');
+
+        // Query 3: Get upcoming events
+        const upcomingEvents = await knex('events')
+        .where('event_date', '>', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*')
+            .orderBy('event_date', 'asc');
+
+        // Query 4: Get completed events
+        const completedEvents = await knex('events').whereNotNull('numparticipants');
+
+        // Query 5: Get denied events
+        const deniedEvents = await knex('events').where({ approval: false });
+
+        // Render the page, passing the query results
+        res.render('dashboard', {
+            needingUpdate,
+            waitingApproval,
+            upcomingEvents,
+            completedEvents,
+            deniedEvents,
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 //Add//
 //Event//
 
