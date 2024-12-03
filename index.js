@@ -349,7 +349,7 @@ app.get('/eventMaint', async (req, res) => {
         const deniedEvents = await knex('events').where({ approval: false });
 
         // Render the page, passing the query results
-        res.render('dashboard', {
+        res.render('eventMaint', {
             needingUpdate,
             waitingApproval,
             upcomingEvents,
