@@ -332,15 +332,15 @@ app.get('/addUser', (req, res) => {
 app.get('/eventMaint', async (req, res) => {
     try {
         // Query 1: Get events needing updates
-        const needingUpdate = await knex('events').where('event_date', '<', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*');
+        const needingUpdate = await knex('events').where('date', '<', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*');
 
         // Query 2: Get events waiting for approval
-        const waitingApproval = await knex('events').where('event_date', '>', knex.raw('CURRENT_DATE')).whereNull('approval').select('*');
+        const waitingApproval = await knex('events').where('date', '>', knex.raw('CURRENT_DATE')).whereNull('approval').select('*');
 
         // Query 3: Get upcoming events
         const upcomingEvents = await knex('events')
-        .where('event_date', '>', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*')
-            .orderBy('event_date', 'asc');
+        .where('date', '>', knex.raw('CURRENT_DATE')).where({approval : true}).whereNull('numparticipants').select('*')
+            .orderBy('date', 'asc');
 
         // Query 4: Get completed events
         const completedEvents = await knex('events').whereNotNull('numparticipants');
