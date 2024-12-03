@@ -162,18 +162,8 @@ app.post('/volunteerSignup', (req, res) => {
 
 //Gets the required info to be able to add Characters
 app.get('/addUser', (req, res) => {
-    // Fetch Character types to populate the dropdown
-    knex('administration')
-      .select('username', 'password')
-      .then(administration => {
-        // Render the add form with the Character types data
-        res.render('addUser', { administration });
-      })
-      .catch(error => {
-        console.error('Error fetching Users:', error);
-        res.status(500).send('Internal Server Error');
-      });
-  });
+        res.render('addUser', { security })}); // fetches the add user page
+
 
   //Shows the changes on the client side
   app.post('/addUser', (req, res) => {
@@ -224,7 +214,19 @@ app.get('/addUser', (req, res) => {
     // Access each value directly from req.body
     const username = req.body.username; //Pass the input to the request body and gives it a name
     const password = req.body.password; //Pass the input to the request body and gives it a name
-
+    knex('administration')
+    .insert({
+      username: username, 
+      password: password 
+    })
+    .then(() => {
+      res.redirect('/'); // Redirect to the user list page after adding
+    })
+    .catch(error => {
+      console.error('Error adding User:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 //Remove//
 //User//
 
