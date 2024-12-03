@@ -163,40 +163,34 @@ app.post('/volunteerSignup', (req, res) => {
 //Gets the required info to be able to add Characters
 app.get('/addUser', (req, res) => {
     // Fetch Character types to populate the dropdown
-    knex('planets')
-      .select('UserID', 'planet_name')
-      .then(planets => {
+    knex('administration')
+      .select('username', 'password')
+      .then(administration => {
         // Render the add form with the Character types data
-        res.render('addStar', { planets });
+        res.render('addUser', { administration });
       })
       .catch(error => {
-        console.error('Error fetching Planets:', error);
+        console.error('Error fetching Users:', error);
         res.status(500).send('Internal Server Error');
       });
   });
 
   //Shows the changes on the client side
-  app.post('/addStar', (req, res) => {
+  app.post('/addUser', (req, res) => {
     // Extract form values from req.body
-    const first_name = req.body.first_name || ''; // Default to empty string if not provided
-    const last_name = req.body.last_name || ''; // Default to empty string if not provided
-    const planet_name = parseInt(req.body.planet_name, 10); // Convert to integer
-    const jedi = req.body.jedi === 'true'; // Checkbox returns true or undefined
-    const weapon = req.body.weapon || 'N'; // Default to 'N' for None
+    const username = req.body.username || ''; // Default to empty string if not provided
+    const password = req.body.password || ''; // Default to empty string if not provided
     // Insert the new Characters into the database
-    knex('characters')
+    knex('administration')
       .insert({
-        first_name: first_name.toUpperCase(), // Ensure description is uppercase
-        last_name: last_name.toUpperCase(), // Ensure description is uppercase
-        planet_name: planet_name,
-        jedi: jedi,
-        weapon: weapon
+        username: username, 
+        password: password 
       })
       .then(() => {
-        res.redirect('/'); // Redirect to the Character list page after adding
+        res.redirect('/'); // Redirect to the user list page after adding
       })
       .catch(error => {
-        console.error('Error adding Character:', error);
+        console.error('Error adding User:', error);
         res.status(500).send('Internal Server Error');
       });
   });
@@ -207,63 +201,45 @@ app.get('/addUser', (req, res) => {
 
 
   //configures the edit star functionality
-  app.get('/editStar/:id', (req, res) => {
+  app.get('/editUser/:id', (req, res) => {
     let id = req.params.id;
     // Query the Characters by ID first
-    knex('characters')
-      .where('id', id)
+    knex('administration')
+      .where('id', username)
       .first()
-      .then(characters => {
-        if (!characters) {
-          return res.status(404).send('Character not found');
+      .then(administration => {
+        if (!administration) {
+          return res.status(404).send('User not found');
         }
-        // Query all Characters types after fetching the Characters
-        knex('planets')
-          .select('id', 'planet_name')
-          .then(planets => {
-            // Render the edit form and pass both characters and planets
-            res.render('editStar', { characters, planets });
-          })
-          .catch(error => {
-            console.error('Error fetching Planet names:', error);
-            res.status(500).send('Internal Server Error');
-          });
       })
       .catch(error => {
-        console.error('Error fetching Characters for editing:', error);
+        console.error('Error fetching Users for editing:', error);
         res.status(500).send('Internal Server Error');
       });
   });
 
   //further configures the edit star, and allows for edits
-  app.post('/editStar/:id', (req, res) => {
+  app.post('/editUser/:id', (req, res) => {
     const id = req.params.id;
     // Access each value directly from req.body
-    const first_name = req.body.first_name; //Pass the input to the request body and gives it a name
-    const last_name = req.body.last_name; //Pass the input to the request body and gives it a name
-    const planet_name = parseInt(req.body.planet_name); // Convert to integer
-    // Since jedi is a checkbox, its value is only sent when the checkbox is checked.
-    // If it is unchecked, no value is sent to the server.
-    // This behavior requires special handling on the server-side to set a default
-    // value for jedi when it is not present in req.body.
-    const jedi = req.body.jedi === 'true'; // Convert checkbox value to boolean
-    const weapon = req.body.weapon;
+    const username = req.body.username; //Pass the input to the request body and gives it a name
+    const password = req.body.password; //Pass the input to the request body and gives it a name
 
 //Remove//
 //User//
 
 
   //Allows for deletion
-  app.post('/deleteStar/:id', (req, res) => {
-    const id = req.params.id;
-    knex('characters')
-      .where('id', id)
-      .del() // Deletes the record with the specified ID
+  app.post('/deleteUser/:id', (req, res) => {
+    const username = req.params.username;
+    knex('administration')
+      .where('id', username)
+      .del() // Deletes the record with the specified username
       .then(() => {
-        res.redirect('/'); // Redirect to the Character list after deletion
+        res.redirect('/'); // Redirect to the user list after deletion
       })
       .catch(error => {
-        console.error('Error deleting Character:', error);
+        console.error('Error deleting User:', error);
         res.status(500).send('Internal Server Error');
       });
   });
