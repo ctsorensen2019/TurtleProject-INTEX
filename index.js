@@ -153,6 +153,53 @@ app.post('/volunteerSignup', (req, res) => {
     res.render('eventReq'); // Render the login.ejs file and pass in security
   });
 
+  app.post('/submitEvent', async (req, res) => {
+    const {
+        firstName,
+        lastName,
+        phoneNumber,
+        streetAddress,
+        city,
+        state,
+        zip,
+        participants,
+        sewingLevel,
+        startTime,
+        endTime,
+        eventDates,
+        wantStory,
+    } = req.body;
+
+    try {
+        // Insert data into the database
+        await knex('events').insert({
+            estparticipants: participants,
+            numparticipants: null, // Placeholder for actual participant count
+            streetaddress: streetAddress,
+            state: state,
+            city: city,
+            starttime: null,
+            endtime: null,
+            eststarttime: startTime, // Using estimated start time
+            estendtime: endTime, // Using estimated end time
+            eventsewinglevel: sewingLevel,
+            contactfirstname: firstName,
+            contactlastname: lastName,
+            contactphonenumber: phoneNumber,
+            sharestory: wantStory === 'y', // Convert 'y' to true and 'n' to false
+            opentopublic: false, // Default to false unless specified elsewhere
+            zip: zip,
+            date: eventDates,
+            approval: null, // Default to false; adjust based on business logic
+        });
+
+        // Redirect to a success page
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error inserting event data:', error.message);
+        res.status(500).send('Internal Server Error: Unable to submit event.');
+    }
+});
 
 
 ////////
