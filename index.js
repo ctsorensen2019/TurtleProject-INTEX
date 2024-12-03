@@ -16,7 +16,7 @@ const knex = require("knex")({
         host: process.env.RDS_HOSTNAME || "localhost",
         user: process.env.RDS_USERNAME || "postgres",
         password: process.env.RDS_PASSWORD || "Christian0427" || "6291509",
-        database: process.env.RDS_DB_NAME || "turtle shelter" || "turtleshelter",
+        database: process.env.RDS_DB_NAME || "turtleshelter",
         port: process.env.RDS_PORT || 5432 || 5433
         //Uncomment the below code when we connect to RDS
         //ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
@@ -84,7 +84,7 @@ app.post('/login', async (req, res) => {
 
   try {
       // Query the user table to find the record
-      const user = await knex('user')
+      const user = await knex('administration')
           .select('*')
           .where({ username, password }) // Replace with hashed password comparison in production
           .first(); // Returns the first matching record
@@ -103,6 +103,10 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/adminLand', (req, res) => {
+    res.render('adminLand'); // Render the login.ejs file and pass in security
+});
+
 
 
 /////
@@ -115,16 +119,20 @@ app.post('/volunteerSignup', (req, res) => {
     const last_name = req.body.last_name;
     const email = req.body.email;
     const zipcode = parseInt(req.body.zipcode);
+    const phone = req.body.phone;
     const how_found = req.body.how_found;
     const sewing_level = req.body.sewing_level;
-    knex('volunteer')
+    const esthour = req.body.esthour;
+    knex('volunteers')
       .insert({
-        VolFirstName: first_name.toUpperCase(), // Ensure description is uppercase
-        VolLastName: last_name.toUpperCase(),
-        VolEmail : email.toUpperCase(),
-        ZIP : zipcode,
-        VolSewingLevel: sewing_level.toUpperCase(),
-        HowDiscovered: how_found.toUpperCase()
+        volfirstname: first_name.toUpperCase() || "", // Ensure description is uppercase
+        vollastname: last_name.toUpperCase() || "",
+        volphonenumber: phone || "",
+        volemail : email.toUpperCase() || "",
+        zip : zipcode || "",
+        volsewinglevel: sewing_level.toUpperCase() || "",
+        howdiscovered: how_found.toUpperCase() || "",
+        estmonthlyhours: esthour || ""
 
       })
       .then(() => {

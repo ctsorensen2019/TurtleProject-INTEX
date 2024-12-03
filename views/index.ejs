@@ -383,7 +383,7 @@
           <div class="form-volunteer">
             
             <h2>Be A Volunteer Today</h2>
-<form action="#" method="post">
+<form action="/volunteerSignup" method="POST">
   <!-- First Name -->
   <div class="form-group">
     <label for="name"><strong>First Name</strong></label>
@@ -402,6 +402,12 @@
     <input type="text" class="form-control py-2" id="email" name="email" placeholder="Enter your email">
   </div>
 
+  <!-- Phone number -->
+  <div class="form-group">
+    <label for="phone"><strong>Phone Number</strong></label>
+    <input type="number" class="form-control py-2" id="phone" name="phone" placeholder="Enter your Phone #">
+  </div>
+
   <!-- Zipcode -->
   <div class="form-group">
     <label for="zipcode"><strong>Zipcode</strong></label>
@@ -417,6 +423,12 @@
     <label for="intermediate">Intermediate</label><br>
     <input type="radio" id="advanced" name="sewing_level" value="Advanced">
     <label for="advanced">Advanced</label><br>
+  </div>
+
+  <!-- Phone number -->
+  <div class="form-group">
+    <label for="esthour"><strong>Estimated Hours Available to Give</strong></label>
+    <input type="number" class="form-control py-2" id="esthour" name="esthour" placeholder="Enter how many hours you think you can serve ">
   </div>
 
   <!-- How They Found Out -->
