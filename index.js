@@ -62,6 +62,12 @@ app.get('/', (req, res) => {
   });
 
 
+//
+//
+//CLIENT
+//SIDE
+//
+//
 
 app.get('/login', (req, res) => {
     res.render('login', {security}); // Render the login.ejs file and pass in security
@@ -89,6 +95,12 @@ app.post('/login', (req, res) => {
     }
     res.redirect("/adminLand")
 });
+
+
+//
+//Volunteer Signup
+//
+
 // this is the post to insert the volunteer information from the form into the database
 app.post('/volunteerSignup', (req, res) => {
     const first_name = req.body.first_name;
@@ -116,9 +128,34 @@ app.post('/volunteerSignup', (req, res) => {
       });
   });
 
+
+  //
+  //Event Request
+  //
+
   app.get('/eventReq', (req, res) => {
     res.render('eventReq'); // Render the login.ejs file and pass in security
   });
+
+//
+//
+//SERVER
+//SIDE
+//
+//
+
+//
+//Users
+//
+
+//
+//Events
+//
+
+//
+//Volunteers
+//
+
 
 // Start the server
 app.listen(port, () => console.log("Turtle Shelter Express App has started and server is listening on port 3110!"));
