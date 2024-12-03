@@ -68,7 +68,7 @@
 
     <div class="form-container">
         <h1>Edit Event</h1>
-        <form action="/submitEvent" method="POST">
+        <form action="/submitEvent/<%= event.eventid %>" method="POST">
             <!-- Required fields (read-only) -->
             <div class="form-group">
                 <label for="eventID">Event ID</label>

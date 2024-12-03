@@ -11,16 +11,16 @@ const port = process.env.PORT || 3110;
 
 // Configure knex to connect to the assignment3 database
 const knex = require("knex")({
-    client: "pg",
-    connection: {
-        host: process.env.RDS_HOSTNAME || "localhost",
-        user: process.env.RDS_USERNAME || "postgres",
-        password: process.env.RDS_PASSWORD || "Christian0427" || "6291509",
-        database: process.env.RDS_DB_NAME || "turtleshelter",
-        port: process.env.RDS_PORT || 5432 || 5433
-        //Uncomment the below code when we connect to RDS
-        //ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
-    }
+  client: "pg",
+  connection: {
+      host: process.env.RDS_HOSTNAME || "localhost",
+      user: process.env.RDS_USERNAME || "postgres",
+      password: process.env.RDS_PASSWORD || "6291509",
+      database: process.env.RDS_DB_NAME || "turtleshelter",
+      port: process.env.RDS_PORT || 5433, // Default to 5433, fallback to 5432
+      // Uncomment the below code when connecting to RDS
+      // ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false
+  }
 });
 
 //Allows the client side to be in ejs in a folder called "views"
@@ -390,26 +390,29 @@ app.post('/updateApproval', async (req, res) => {
 });
 
 // this is to add the information for completetion
-app.post('/submitEvent', async (req, res) => {
-  try {
-      const { eventID, startTime, endTime, numParticipants } = req.body;
+app.post('/submitEvent/:eventId', async (req, res) => {
+  const { startTime, endTime, numParticipants } = req.body; // Get the form data
+  const { eventId } = req.params;  // Get the eventId from the URL parameter
 
-      // Update the event with the new start time, end time, and number of participants
+  try {
+      // Update the specific fields in the database
       await knex('events')
-          .where({ eventid: eventID })
+          .where({ eventid: eventId })  // Match the event by its ID
           .update({
-              starttime: startTime,
-              endtime: endTime,
-              numparticipants: numParticipants
+              starttime: startTime,     // Update start time
+              endtime: endTime,         // Update end time
+              numparticipants: numParticipants // Update number of participants
           });
 
-      // Redirect to the event maintenance page (or wherever appropriate)
+      // After updating, redirect to the event details page (or any success page)
       res.redirect('/eventMaint');
   } catch (error) {
-      console.error('Error updating event data:', error.message);
-      res.status(500).send('Internal Server Error');
+      console.error('Error updating event:', error.message);
+      res.status(500).send('Error updating event');
   }
 });
+
+
 
 
 // get to edit the post to add the additional information

@@ -85,29 +85,38 @@
 
     <div class="event-section">
         <h2>Needing Update</h2>
-        <% if (needingUpdate.length > 0) { %>
-            <table>
-                <thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% needingUpdate.forEach(event => { %>
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Location</th>
+                        <td><%= event.date %></td>
+                        <td>
+                            <% if (event.starttime && event.endtime) { %>
+                                <%= event.starttime %> - <%= event.endtime %>
+                            <% } else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                        <td><%= event.city %>, <%= event.state %>, <%= event.streetaddress %></td>
+                        <td>
+                            <form action="/editEvent/<%= event.eventid %>" method="GET"><button type="submit">Finalize</button></form>
+                                
+                           
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% needingUpdate.forEach(event => { %>
-                        <tr>
-                            <td><%= event.date %></td>
-                            <td><%= event.starttime %> - <%= event.endtime %></td>
-                            <td><%= event.streetaddress %>, <%= event.city %>, <%= event.state %> <%= event.zip %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } else { %>
-            <div class="table-placeholder">No events needing updates.</div>
-        <% } %>
+                <% }) %>
+            </tbody>
+        </table>
     </div>
+    
     <div class="event-section">
         <h2>Waiting Approval</h2>
         <% if (waitingApproval.length > 0) { %>
